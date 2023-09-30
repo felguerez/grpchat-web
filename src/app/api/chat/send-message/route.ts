@@ -1,35 +1,36 @@
 import {ChatServiceClient} from "@/proto/chat_grpc_pb";
 import {credentials, Metadata} from "@grpc/grpc-js";
-import {NextResponse, NextRequest} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import {chat} from "@/proto/chat";
-import MessageResponse = chat.MessageResponse;
+import {get} from "@/app/lib/request/get";
+import MessageResponse = chat.SendMessageResponse;
+
 const pb = require("@/proto/chat_pb");
 
 export async function POST(request: NextRequest) {
   const client = new ChatServiceClient('localhost:50051', credentials.createInsecure(), {interceptors: []});
-  let body;
-  try {
-    body = await request.json();
-    if (body) {
-      console.log('body:', body);
-    }
-  } catch (e) {
-    console.log("e is", e);
+
+  const body = await get(request);
+
+  if (body instanceof NextResponse) {
+    return body;
   }
   const {username, content} = body;
 
-  const req = new pb.MessageRequest();
-  req.setUsername(username);
+  const req = new pb.SendMessageRequest();
+  req.setUserId(username);
   req.setContent(content);
-  console.log('Sending request:', req.toObject());
+  req.setConversationId(420);
 
-  client.sendMessage(req, new Metadata({}), (error: any, response: MessageResponse) => {  // Annotate error and response types
-    if (error) {
-      console.error("error says ", error);
-      return NextResponse.json({status: 'bad'});
-    }
-    return NextResponse.json({response: response.toObject()});
+  return new Promise((resolve) => {
+    client.sendMessage(req, new Metadata({}), (error: any, response: MessageResponse) => {
+      if (error) {
+        console.error("error says ", error);
+        resolve(NextResponse.json({status: 'bad'}, {status: 500}));
+      } else {
+        console.log("gRPC call completed");
+        resolve(NextResponse.json({response: response.toObject()}));
+      }
+    });
   });
-  console.log("gRPC call completed");
-  return NextResponse.json({status: "gRPC call complete"})
 }
