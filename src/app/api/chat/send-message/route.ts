@@ -15,12 +15,14 @@ export async function POST(request: NextRequest) {
   if (body instanceof NextResponse) {
     return body;
   }
-  const {username, content} = body;
+  const {user_id, content, conversation_id} = body;
 
   const req = new pb.SendMessageRequest();
-  req.setUserId(username);
+  req.setUserId(user_id);
   req.setContent(content);
-  req.setConversationId(420);
+  req.setConversationId(parseInt(conversation_id, 10));
+
+  console.log('req.toObject():', req.toObject());
 
   return new Promise((resolve) => {
     client.sendMessage(req, new Metadata({}), (error: any, response: MessageResponse) => {
