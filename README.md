@@ -14,6 +14,16 @@ pnpm dev
 bun dev
 ```
 
+### Generating gRPC stubs
+
+Run the [generate-grpc.sh script](./generate-grpc.sh) to create gRPC stubs for use in API routes and route handers.
+
+If you encounter an error related to `protoc` not being found, you may need to set up a symlink. Run the following command:
+
+```bash
+ln -s /opt/homebrew/opt/protobuf@3/bin/protoc /path/to/your/project/node_modules/grpc-tools/bin/protoc
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.

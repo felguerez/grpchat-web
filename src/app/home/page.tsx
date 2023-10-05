@@ -1,11 +1,20 @@
+import {Message, Messages} from "@/app/home/styles";
+import {SendMessageForm} from "@/app/components/SendMessageForm";
+
 export default async function Page() {
   const {messages} = await getAllMessages();
-  return <div>
-    <p>
-      welcome home!
-    </p>
-    {messages.map((message: any) => <pre key={message.timestamp}>{JSON.stringify(message)}</pre>)}
-  </div>
+  return (
+    <div>
+      <Messages>
+        {messages.map((message: any) => {
+          return <Message key={message.timestamp}>
+            <span>{message.user_id}</span>: {message.content}
+          </Message>;
+        })}
+      </Messages>
+      <SendMessageForm/>
+    </div>
+  )
 }
 
 async function getAllMessages() {
