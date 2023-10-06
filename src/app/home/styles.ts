@@ -10,8 +10,8 @@ export const Messages = styled.div`
 `;
 export const Message = styled.div`
   padding: 4px;
-  color: black;
+  margin-bottom: 4px;
   &:hover {
-    background-color: antiquewhite;
+    
   }
 `;

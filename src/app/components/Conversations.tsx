@@ -7,7 +7,7 @@ export function Conversations({ conversations }: { conversations: any[] }) {
         console.log("convo:", convo);
         return (
           <div key={convo.id}>
-            <p>{convo.name} (<span>{convo.members.length} members</span>)</p>
+            <a href={`/conversations/${convo.id}`}>{convo.name} (<span>{convo.members.length} members</span>)</a>
           </div>
         );
       })}

@@ -1,30 +1,30 @@
-import {Message, Messages} from "@/app/home/styles";
-import {SendMessageForm} from "@/app/components/SendMessageForm";
+import { Message, Messages } from "@/app/home/styles";
 
 export default async function Page() {
-  const {messages} = await getAllMessages();
+  const { messages } = await getAllMessages();
   return (
     <div>
       <Messages>
         {messages.map((message: any) => {
-          return <Message key={message.timestamp}>
-            <span>{message.user_id}</span>: {message.content}
-          </Message>;
+          return (
+            <Message key={message.timestamp}>
+              <span>{message.user_id}</span>: {message.content}
+            </Message>
+          );
         })}
       </Messages>
-      <SendMessageForm/>
     </div>
-  )
+  );
 }
 
 async function getAllMessages() {
-  const API_URL = 'http://localhost:8080/api/messages'
+  const API_URL = "http://localhost:8080/api/messages";
   const response = await fetch(API_URL);
   if (response.ok) {
     const messages = await response.json();
-    return {messages};
+    return { messages };
   }
   return {
-    messages: []
-  }
+    messages: [],
+  };
 }

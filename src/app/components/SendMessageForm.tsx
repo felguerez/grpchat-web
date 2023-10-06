@@ -1,13 +1,10 @@
 "use client";
 import React from "react";
-import { useAppContext } from "@/app/lib/context/AppContext";
 
-export function SendMessageForm(props: {}) {
-  const { sessionId } = useAppContext();
-
+export function SendMessageForm(props: { conversationId: string }) {
   async function submit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-    const body = Array.from(e.currentTarget.elements)
+    const input = Array.from(e.currentTarget.elements)
       .filter((element) => (element as HTMLInputElement).type === "text")
       .reduce((result, element) => {
         // @ts-ignore
@@ -15,7 +12,13 @@ export function SendMessageForm(props: {}) {
         return result;
       }, {});
 
-    console.log("body:", body);
+    const body = {
+      // @ts-ignore
+      content: input.content,
+      conversation_id: props.conversationId,
+      user_id: "felguerez",
+    };
+
 
     const res = await fetch("/api/chat/messages", {
       method: "POST",

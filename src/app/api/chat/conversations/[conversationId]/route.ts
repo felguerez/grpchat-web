@@ -1,0 +1,40 @@
+import { NextRequest, NextResponse } from "next/server";
+import { chat } from "@/proto/chat";
+import { credentials, ServiceError } from "@grpc/grpc-js";
+import {cookies} from "next/headers";
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { conversationId: string } },
+) {
+  const cookieStore = cookies();
+  const sessionId = cookieStore.get('session_id');
+  console.log('session_id:', sessionId);
+  const client = new chat.ChatServiceClient(
+    "localhost:50051",
+    credentials.createInsecure(),
+    { interceptors: [] },
+  );
+  console.log('params:', params);
+  const getConversationRequest = new chat.GetConversationRequest({
+    conversation_id: params.conversationId,
+  });
+
+  return new Promise<NextResponse>((resolve, reject) => {
+    client.GetConversation(
+      getConversationRequest,
+      (error: ServiceError | null, response) => {
+        if (error) {
+          reject(
+            NextResponse.json({ status: "error", message: error.message }),
+          );
+        } else {
+          if (response) {
+            resolve(NextResponse.json(response.toObject()));
+          }
+          resolve(NextResponse.json({ status: "hmm" }));
+        }
+      },
+    );
+  });
+}
