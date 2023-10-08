@@ -9,13 +9,11 @@ export async function GET(
 ) {
   const cookieStore = cookies();
   const sessionId = cookieStore.get('session_id');
-  console.log('session_id:', sessionId);
   const client = new chat.ChatServiceClient(
     "localhost:50051",
     credentials.createInsecure(),
     { interceptors: [] },
   );
-  console.log('params:', params);
   const getConversationRequest = new chat.GetConversationRequest({
     conversation_id: params.conversationId,
   });

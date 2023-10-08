@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
   });
 
   console.log("req.toObject():", req.toObject());
-
+  const stream = client.ChatStream();
   return new Promise((resolve) => {
     client.SendMessage(
       req,
@@ -49,5 +49,6 @@ export async function POST(request: NextRequest) {
         }
       },
     );
+    stream.write(req);
   });
 }

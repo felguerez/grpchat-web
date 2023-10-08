@@ -13,12 +13,13 @@ service ChatService {
     rpc CreateConversation(CreateConversationRequest) returns (CreateConversationResponse);
 
     // JoinConversation joins a user to a chat room and streams messages.
-    rpc JoinConversation(JoinConversationRequest) returns (stream JoinConversationResponse);
+    rpc JoinConversation(JoinConversationRequest) returns (JoinConversationResponse);
 
     rpc GetConversation(GetConversationRequest) returns (GetConversationResponse);
 
     // GetConversations returns conversations for a given user
     rpc GetConversations(GetConversationsRequest) returns (GetConversationsResponse);
+    rpc ChatStream (stream SendMessageRequest) returns (stream SendMessageRequest);
 }
 
 // Request to send a message.
@@ -41,14 +42,13 @@ message Message {
 
 // Request to join a conversation.
 message JoinConversationRequest {
-    int32 conversation_id = 1;  // ID of the conversation to join.
+    string conversation_id = 1;  // ID of the conversation to join.
     string user_id = 2;         // ID of the user joining the conversation.
 }
 
 // Response after joining a conversation.
 message JoinConversationResponse {
-    int32 conversation_id = 1;  // ID of the conversation.
-    string user_id = 2;         // ID of the user in the conversation.
+    string status = 1;
 }
 
 // Request to create a new conversation.

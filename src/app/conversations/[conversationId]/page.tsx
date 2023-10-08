@@ -1,5 +1,6 @@
 import { SendMessageForm } from "@/app/components/SendMessageForm";
 import { Message } from "@/app/home/styles";
+import ChatRoom from "@/app/components/ChatRoom";
 
 export default async function Page({
   params,
@@ -12,13 +13,7 @@ export default async function Page({
   return (
     <div>
       <h1>{conversation.name}</h1>
-      {messages.map((message: any) => {
-        return (
-          <Message key={message.content}>
-            <strong>{message.user_id}</strong>: {message.content}
-          </Message>
-        );
-      })}
+      <ChatRoom conversationId={params.conversationId} messages={messages} />
       <SendMessageForm conversationId={params.conversationId} />
     </div>
   );
