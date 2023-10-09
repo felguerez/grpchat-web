@@ -1,7 +1,9 @@
 "use client";
-import React from "react";
+import React, {useRef} from "react";
 
 export function SendMessageForm(props: { conversationId: string }) {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
   async function submit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     const input = Array.from(e.currentTarget.elements)
@@ -28,12 +30,15 @@ export function SendMessageForm(props: { conversationId: string }) {
       }),
     });
     const response = await res.json();
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
     console.log("response:", response);
   }
 
   return (
     <form className="flex gap-2" onSubmit={submit}>
-      <input type="text" className="text-black flex-auto" name="content" />
+      <input ref={inputRef} type="text" className="text-black flex-auto" name="content" />
       <button type="submit">↵</button>
     </form>
   );

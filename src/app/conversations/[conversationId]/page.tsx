@@ -1,6 +1,5 @@
-import { SendMessageForm } from "@/app/components/SendMessageForm";
-import { Message } from "@/app/home/styles";
 import ChatRoom from "@/app/components/ChatRoom";
+import styles from './styles.scss';
 
 export default async function Page({
   params,
@@ -12,9 +11,8 @@ export default async function Page({
   );
   return (
     <div>
-      <h1>{conversation.name}</h1>
+      <h1 className="title">{conversation.name}</h1>
       <ChatRoom conversationId={params.conversationId} messages={messages} />
-      <SendMessageForm conversationId={params.conversationId} />
     </div>
   );
 }

@@ -36,19 +36,15 @@ export async function POST(request: NextRequest) {
   console.log("req.toObject():", req.toObject());
   const stream = client.ChatStream();
   return new Promise((resolve) => {
-    client.SendMessage(
-      req,
-      new Metadata({}),
-      (error: any, response) => {
-        if (error) {
-          console.error("error says ", error);
-          resolve(NextResponse.json({ status: "bad" }, { status: 500 }));
-        } else {
-          console.log("gRPC call completed");
-          resolve(NextResponse.json({ response: response?.toObject() }));
-        }
-      },
-    );
+    client.SendMessage(req, new Metadata({}), (error: any, response) => {
+      if (error) {
+        console.error("error says ", error);
+        resolve(NextResponse.json({ status: "bad" }, { status: 500 }));
+      } else {
+        console.log("gRPC call completed");
+        resolve(NextResponse.json(response?.toObject()));
+      }
+    });
     stream.write(req);
   });
 }
