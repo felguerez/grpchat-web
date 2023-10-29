@@ -3,12 +3,15 @@
 CLUSTER_NAME="grpchat-grpc-cluster"
 SERVICE_NAME="grpchat-web"
 ECR_REPO="413025517373.dkr.ecr.us-east-1.amazonaws.com/grpchat-web"
+SCRIPT_DIR="$(dirname "$0")"  # This gets the directory where the script is located
 
 # login
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REPO
 
+# Change to project root directory (assuming script is in ./scripts/)
+cd "$SCRIPT_DIR/.."
+
 # Build Docker image
-cd .. # build from the root directory
 docker build -t $SERVICE_NAME .
 
 # Tag Docker image for Amazon ECR
