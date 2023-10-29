@@ -17,7 +17,10 @@ docker build -t $SERVICE_NAME "$PROJECT_ROOT_DIR"
 docker tag $SERVICE_NAME:latest $ECR_REPO:latest
 
 # Push Docker image to Amazon ECR
-docker push $ECR_REPO:latest
+
+echo "gonna push to $ECR_REPO:latest"
+
+docker push "$ECR_REPO:latest"
 
 # Update ECS service to force a new deployment (pulls the latest image from ECR)
 aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment
