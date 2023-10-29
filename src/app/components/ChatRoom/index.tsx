@@ -46,8 +46,11 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
   const wsRef = useRef<WebSocket | null>(null);
   useEffect(() => {
     if (conversationId && wsRef.current === null) {
+      const host = process.env.API_URL?.includes("localhost")
+        ? "localhost:8080"
+        : "chat-api.felguerez.com";
       wsRef.current = new WebSocket(
-        `ws://localhost:8080/api/conversations/${conversationId}/stream`,
+        `ws://${host}/api/conversations/${conversationId}/stream`,
       );
 
       wsRef.current.onopen = (event) => {

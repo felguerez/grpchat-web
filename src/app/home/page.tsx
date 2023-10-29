@@ -18,7 +18,7 @@ export default async function Page() {
 }
 
 async function getAllMessages() {
-  const API_URL = "http://localhost:8080/api/messages";
+  const API_URL = `${process.env.API_URL}/api/messages`;
   const response = await fetch(API_URL);
   if (response.ok) {
     const messages = await response.json();

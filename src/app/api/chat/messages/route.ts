@@ -4,7 +4,7 @@ import { chat } from "@/proto/chat";
 import { get } from "@/app/lib/request/get";
 
 export async function GET(request: NextRequest) {
-  const API_URL = "http://localhost:8080/api/messages";
+  const API_URL = `${process.env.API_URL}/api/messages`;
   const response = await fetch(API_URL);
   if (response.ok) {
     return response.json();
