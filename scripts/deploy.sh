@@ -1,16 +1,20 @@
 #!/bin/bash
 
+CLUSTER_NAME="grpchat-grpc-cluster"
+SERVICE_NAME="grpchat-web"
+ECR_REPO="413025517373.dkr.ecr.us-east-1.amazonaws.com/grpchat-web"
+
 # login
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 413025517373.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REPO
 
 # Build Docker image
 docker build -t grpchat-web .
 
 # Tag Docker image for Amazon ECR
-docker tag grpchat-web:latest 413025517373.dkr.ecr.us-east-1.amazonaws.com/grpchat-web:latest
+docker tag grpchat-web:latest $ECR_REPO:latest
 
 # Push Docker image to Amazon ECR
-docker push 413025517373.dkr.ecr.us-east-1.amazonaws.com/grpchat-web:latest
+docker push $ECR_REPO:latest
 
-# Optionally, update ECS service if you decide to go that route in the future
-# aws ecs update-service --cluster YOUR_CLUSTER_NAME --service YOUR_SERVICE_NAME --force-new-deployment
+# Update ECS service to force a new deployment (pulls the latest image from ECR)
+aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment
