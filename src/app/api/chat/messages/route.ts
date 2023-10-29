@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   throw new Error("Error in request");
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const client = new chat.ChatServiceClient(
     "localhost:50051",
     credentials.createInsecure(),
@@ -33,18 +33,25 @@ export async function POST(request: NextRequest) {
     conversation_id,
   });
 
-  console.log("req.toObject():", req.toObject());
+  console.log("sending request object: ", req.toObject());
   const stream = client.ChatStream();
   return new Promise((resolve) => {
     client.SendMessage(req, new Metadata({}), (error: any, response) => {
       if (error) {
-        console.error("error says ", error);
+        console.error("error calling client.SendMessage: ", error);
         resolve(NextResponse.json({ status: "bad" }, { status: 500 }));
-      } else {
+      } else if (response) {
         console.log("gRPC call completed");
-        resolve(NextResponse.json(response?.toObject()));
+        resolve(NextResponse.json(response.toObject()));
+      } else {
+        console.error(`
+        No response or error in client.SendMessage callback;
+        Request object sent: `,
+          req.toObject(),
+        );
       }
     });
-    stream.write(req);
+    console.log("Writing to chat stream")
+    return stream.write(req);
   });
 }

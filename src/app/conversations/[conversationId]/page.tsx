@@ -1,5 +1,5 @@
 import ChatRoom from "@/app/components/ChatRoom";
-import styles from './styles.scss';
+import './styles.scss';
 
 export default async function Page({
   params,
@@ -10,8 +10,12 @@ export default async function Page({
     params.conversationId,
   );
   return (
-    <div>
-      <h1 className="title">{conversation.name}</h1>
+    <div className="aol-theme">
+      <div className="navbar">
+        <h1 className="title">{conversation.name}</h1>
+        <button>Home</button>
+        <button>Toggle Conversations</button>
+      </div>
       <ChatRoom conversationId={params.conversationId} messages={messages} />
     </div>
   );

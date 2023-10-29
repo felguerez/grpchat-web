@@ -7,6 +7,7 @@ import {
   MessagesContainer,
 } from "@/app/components/ChatRoom/styles";
 import { SendMessageForm } from "@/app/components/SendMessageForm";
+import "@/app/conversations/[conversationId]/styles.scss";
 
 interface Message {
   user_id: string;
@@ -75,8 +76,8 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
 
   // @ts-ignore
   return (
-    <ChatContainer>
-      <MessagesContainer>
+    <ChatContainer theme="aol">
+      <MessagesContainer theme="aol">
         {allMessages.map((message, index) => (
           <MessageRow key={`${index}.${message.content}`}>
             <strong>{message.user_id}</strong>: {message.content}
@@ -85,7 +86,7 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
         {/* @ts-ignore */}
         <div ref={messagesEndRef} />
       </MessagesContainer>
-      <InputContainer>
+      <InputContainer theme="aol">
         <SendMessageForm conversationId={conversationId} />
       </InputContainer>
     </ChatContainer>

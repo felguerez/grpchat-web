@@ -1,9 +1,12 @@
 // import {WebSocket} from "ws";
-import {credentials} from "@grpc/grpc-js";
-import {chat} from "@/proto/chat";
-import {NextResponse} from "next/server";
+import { credentials } from "@grpc/grpc-js";
+import { chat } from "@/proto/chat";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(params: { conversationId: string }) {
+export async function GET(
+  _request: NextRequest,
+  params: { conversationId: string },
+) {
   const client = new chat.ChatServiceClient(
     "localhost:50051",
     credentials.createInsecure(),
@@ -21,7 +24,6 @@ export async function GET(params: { conversationId: string }) {
       // Handle the new message (e.g., update the UI)
     }
   });
-
 
   stream.on("end", () => {
     console.log("Stream ended");
@@ -45,11 +47,13 @@ function streamGrpc(stream: any) {
   return new ReadableStream({
     start(controller) {
       stream.on("data", (chunk: Buffer) => {
-        console.log('chunk:', chunk);
-        controller.enqueue((chunk));
+        console.log("chunk:", chunk);
+        controller.enqueue(chunk);
       });
       stream.on("end", () => controller.close());
-      stream.on("error", (error: NodeJS.ErrnoException) => controller.error(error));
+      stream.on("error", (error: NodeJS.ErrnoException) =>
+        controller.error(error),
+      );
     },
     cancel() {
       stream.destroy();
