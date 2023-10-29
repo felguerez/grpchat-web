@@ -12,7 +12,7 @@ export default function Home() {
       ) : (
         <a href={`${process.env.API_URL}/login`}>log in</a>
       )}
-      <p>let's get it started in here</p>
+      <p>let&lsquo;s get it started in here</p>
     </main>
   );
 }
