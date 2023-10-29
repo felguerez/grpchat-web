@@ -8,10 +8,10 @@ ECR_REPO="413025517373.dkr.ecr.us-east-1.amazonaws.com/grpchat-web"
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REPO
 
 # Build Docker image
-docker build -t grpchat-web .
+docker build -t $SERVICE_NAME .
 
 # Tag Docker image for Amazon ECR
-docker tag grpchat-web:latest $ECR_REPO:latest
+docker tag $SERVICE_NAME:latest $ECR_REPO:latest
 
 # Push Docker image to Amazon ECR
 docker push $ECR_REPO:latest
