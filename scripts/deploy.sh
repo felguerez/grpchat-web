@@ -10,9 +10,6 @@ echo "Project directory is $PROJECT_ROOT_DIR"
 # login
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REPO
 
-# Change to project root directory (assuming script is in ./scripts/)
-cd "$SCRIPT_DIR/.."
-
 # Build Docker image
 docker build -t $SERVICE_NAME "$PROJECT_ROOT_DIR"
 
