@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
-  const sessionId = request.headers.get('sessionId');
   const headersObject = {};
   request.headers.forEach((value, name) => {
     // @ts-ignore
     headersObject[name] = value;
   });
+  const url = new URL(request.nextUrl);
+  const sessionId = url.searchParams.get('sessionId');
 
   // Log headers
   console.log('Request headers:', headersObject);
