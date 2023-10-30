@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
 
   if (sessionId) {
     // If sessionId exists, set it as a cookie and redirect to root
-    const response = NextResponse.rewrite('/', {status: 302});
+    const response = NextResponse.rewrite(`${rootUrl}/`, {status: 302});
     response.cookies.set('sessionId', sessionId, {
       path: '/',
       // other cookie options like secure, httpOnly, etc.
