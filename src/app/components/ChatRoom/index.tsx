@@ -45,12 +45,12 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
   }, [messages]);
   const wsRef = useRef<WebSocket | null>(null);
   useEffect(() => {
+    const isHttps = location.protocol.match("https");
     if (conversationId && wsRef.current === null) {
-      const host = process.env.API_URL?.includes("localhost")
-        ? "localhost:8080"
-        : "chat-api.felguerez.com";
+      const host = isHttps ? "chat-api.felguerez.com" : "localhost:8080";
+      const wsProtocol = isHttps ? "wss" : "ws";
       wsRef.current = new WebSocket(
-        `ws://${host}/api/conversations/${conversationId}/stream`,
+        `${wsProtocol}://${host}/api/conversations/${conversationId}/stream`,
       );
 
       wsRef.current.onopen = (event) => {
