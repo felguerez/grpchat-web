@@ -10,6 +10,8 @@ echo "Project directory is $PROJECT_ROOT_DIR"
 # login
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REPO
 
+# Enable Docker BuildKit to parallelize build steps and optimize caching
+export DOCKER_BUILDKIT=1
 # Build Docker image
 docker build -t $SERVICE_NAME "$PROJECT_ROOT_DIR"
 

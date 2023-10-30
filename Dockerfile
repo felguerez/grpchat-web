@@ -1,5 +1,5 @@
 # Use an official Node runtime as the base image
-FROM --platform=linux/amd64 node:18-alpine
+FROM --platform=linux/amd64 node:18
 
 # Install Python and other dependencies
 RUN apk add --no-cache python3 make g++
