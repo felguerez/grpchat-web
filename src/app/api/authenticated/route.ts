@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const sessionId = request.headers.get('sessionId');
+  const headersObject = {};
+  request.headers.forEach((value, name) => {
+    // @ts-ignore
+    headersObject[name] = value;
+  });
+
+  // Log headers
+  console.log('Request headers:', headersObject);
 
   // Generate an absolute URL for redirect
   const host = request.headers.get('host');
