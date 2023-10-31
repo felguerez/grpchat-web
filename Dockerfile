@@ -2,7 +2,9 @@
 FROM --platform=linux/amd64 node:18
 
 # Install Python and other dependencies
-RUN apk add --no-cache python3 make g++
+RUN apt-get update && \
+    apt-get install -y python3 make g++ && \
+    apt-get clean
 
 # install pnpm
 RUN npm install -g pnpm

@@ -19,15 +19,15 @@ export async function GET(request: NextRequest) {
 
   if (sessionId) {
     // If sessionId exists, set it as a cookie and redirect to root
-    const response = NextResponse.rewrite(`${rootUrl}/`, {status: 302});
+    const response = NextResponse.redirect(`${rootUrl}/`, 302);
     response.cookies.set('sessionId', sessionId, {
       path: '/',
       // other cookie options like secure, httpOnly, etc.
     });
-    response.headers.set('Location', `${rootUrl}/`);
     return response;
   } else {
     // If sessionId doesn't exist, redirect to root with an error message
-    return NextResponse.redirect(`${rootUrl}/?error=NoSessionId`);
+    return NextResponse.redirect(`${rootUrl}/?error=NoSessionId`, 302);
   }
+}
 }
