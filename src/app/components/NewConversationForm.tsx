@@ -1,5 +1,6 @@
-'use client';
+"use client";
 import React, { useState } from "react";
+import "../conversations/conversations.scss";
 
 export function NewConversationForm(props: {}) {
   const [name, setName] = useState("");
@@ -21,7 +22,7 @@ export function NewConversationForm(props: {}) {
   }
 
   return (
-    <div>
+    <div className="new-conversation-form">
       <h1>New Conversation</h1>
       <form className="flex gap-2" onSubmit={submit}>
         <input

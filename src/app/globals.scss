@@ -1,0 +1,148 @@
+/*:root {*/
+/*  --foreground-rgb: 0, 0, 0;*/
+/*  --background-start-rgb: 214, 219, 220;*/
+/*  --background-end-rgb: 255, 255, 255;*/
+/*}*/
+
+/*@media (prefers-color-scheme: dark) {*/
+/*  :root {*/
+/*    --foreground-rgb: 255, 255, 255;*/
+/*    --background-start-rgb: 0, 0, 0;*/
+/*    --background-end-rgb: 0, 0, 0;*/
+/*  }*/
+/*}*/
+
+/*body {*/
+/*  color: rgb(var(--foreground-rgb));*/
+/*  background: linear-gradient(*/
+/*      to bottom,*/
+/*      transparent,*/
+/*      rgb(var(--background-end-rgb))*/
+/*    )*/
+/*    rgb(var(--background-start-rgb));*/
+/*}*/
+
+:root {
+  --indigo: #24203f;
+  --indigo-light: #2e2850;
+  --indigo-lighter: #383161;
+  --purple: #5000b9;
+  --purple-light: #7d3fe8;
+  --purple-lighter: #874eea;
+  --green: #185941;
+  --mint: #97e0ce;
+  --orange: #ff8620;
+  --crimson: #bb2424;
+  --rose: #EE5757;
+  --rose-light: #F66181;
+  --chartreuse: #e8f524;
+
+  --blue-link: #646cff;
+  --blue-link-hover: #535bf2;
+
+  --spotify-green: #1DB954;
+
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: var(--indigo);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+}
+
+/* Resetting box model */
+h1, h2, h3, h4, p, address, blockquote, dl, div, fieldset, form, hr, ol, ul, figure, pre, table, caption, tbody, tfoot, thead, tr, th, td {
+//font-family: "Circular Sp", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* All typographic elements */
+h1, h2, h3, h4, p, address, blockquote, dl, ol, ul, li, figure, pre, table, caption, tbody, tfoot, thead, tr, th, td {
+  line-height: 1.25;
+}
+
+/* extra margin-bottom for primary block-level elements */
+h1, h2, h3, h4, p, address, blockquote, ul, ol, dl, figure, pre, table, form, fieldset {
+  margin-bottom: 1.5rem;
+}
+
+a {
+  font-weight: 500;
+  color: var(--mint);
+  text-decoration: inherit;
+
+  &:hover {
+    color: var(--rose-light);
+  }
+}
+
+body {
+  margin: 0;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+.card {
+  padding: 2em;
+}
+
+.recently-played {
+  padding-top: 1rem;
+}
+
+#app {
+  max-width: 80rem;
+  padding: 2rem;
+}
+
+button {
+  background-color: #1DB954; /* Green */
+  border: none;
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: monospace;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #45a049;
+  }
+}
+
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}

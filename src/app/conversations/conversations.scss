@@ -1,0 +1,47 @@
+$spotify-green: #1DB954;
+
+.new-conversation-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+
+  input[type="text"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 70%;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button {
+    background-color: $spotify-green;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: lighten($spotify-green, 10%);
+    }
+  }
+}
+
+.conversations-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+
+  .conversation-item {
+    padding: 1rem;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .conversation-item:last-child {
+    border-bottom: none;
+  }
+}
