@@ -10,7 +10,7 @@ export async function GET(
   const cookieStore = cookies();
   const sessionId = cookieStore.get('session_id');
   const client = new chat.ChatServiceClient(
-    "localhost:50051",
+    process.env.GRPC_API_URL,
     credentials.createInsecure(),
     { interceptors: [] },
   );

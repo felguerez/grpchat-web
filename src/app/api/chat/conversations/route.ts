@@ -5,7 +5,7 @@ import { get } from "@/app/lib/request/get";
 
 export async function GET(request: NextRequest) {
   const client = new chat.ChatServiceClient(
-    "localhost:50051",
+    process.env.GRPC_API_URL,
     credentials.createInsecure(),
     { interceptors: [] },
   );
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const client = new chat.ChatServiceClient(
-    "localhost:50051",
+    process.env.GRPC_API_URL,
     credentials.createInsecure(),
     { interceptors: [] },
   );
