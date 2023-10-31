@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const client = new chat.ChatServiceClient(
-    process.env.GRPC_API_URL,
+    process.env.GRPC_API_URL!,
     credentials.createInsecure(),
     { interceptors: [] },
   );

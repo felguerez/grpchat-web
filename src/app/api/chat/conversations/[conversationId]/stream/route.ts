@@ -8,7 +8,7 @@ export async function GET(
   params: { conversationId: string },
 ) {
   const client = new chat.ChatServiceClient(
-    process.env.GRPC_API_URL,
+    process.env.GRPC_API_URL!,
     credentials.createInsecure(),
   );
 
