@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  console.log("I'm gonna send a message to the URL ", process.env.GRPC_API_URL);
   const client = new chat.ChatServiceClient(
     process.env.GRPC_API_URL!,
     credentials.createInsecure(),
@@ -44,14 +45,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         console.log("gRPC call completed");
         resolve(NextResponse.json(response.toObject()));
       } else {
-        console.error(`
+        console.error(
+          `
         No response or error in client.SendMessage callback;
         Request object sent: `,
           req.toObject(),
         );
       }
     });
-    console.log("Writing to chat stream")
+    console.log("Writing to chat stream");
     return stream.write(req);
   });
 }
