@@ -44,18 +44,24 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
     dispatch({ type: "SET_INITIAL_MESSAGES", payload: messages });
   }, [messages]);
   const wsRef = useRef<WebSocket | null>(null);
+  const ws = wsRef.current;
+  let keepAlive: NodeJS.Timeout;
   useEffect(() => {
     const isHttps = location.protocol.match("https");
-    if (conversationId && wsRef.current === null) {
+    if (conversationId && ws) {
       const host = isHttps ? "chat-api.felguerez.com" : "localhost:8080";
       const wsProtocol = isHttps ? "wss" : "ws";
       wsRef.current = new WebSocket(
         `${wsProtocol}://${host}/api/conversations/${conversationId}/stream`,
       );
 
-      wsRef.current.onopen = (event) => {
+      ws.onopen = (event) => {
         console.log("WebSocket opened:", event);
       };
+
+      keepAlive = setInterval(() => {
+        ws.send(JSON.stringify({ type: "keep-alive" }));
+      }, 3000);
 
       wsRef.current.onmessage = (event) => {
         const newMessage = JSON.parse(event.data) as Message;
@@ -66,8 +72,9 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
     }
 
     return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
+      clearInterval(keepAlive);
+      if (ws) {
+        ws.close();
         wsRef.current = null; // Reset the ref for future use
       }
     };
