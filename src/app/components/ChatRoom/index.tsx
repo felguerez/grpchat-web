@@ -59,6 +59,10 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
         console.log("WebSocket opened:", event);
       };
 
+      ws.onclose = (event) => {
+        console.log("websocket closed???? ", event);
+      }
+
       keepAlive = setInterval(() => {
         ws.send(JSON.stringify({ type: "keep-alive" }));
       }, 3000);
