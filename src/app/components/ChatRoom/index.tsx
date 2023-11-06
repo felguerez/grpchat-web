@@ -44,45 +44,49 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
     dispatch({ type: "SET_INITIAL_MESSAGES", payload: messages });
   }, [messages]);
   const wsRef = useRef<WebSocket | null>(null);
-  const ws = wsRef.current;
   let keepAlive: NodeJS.Timeout;
+
   useEffect(() => {
-    const isHttps = location.protocol.match("https");
-    if (conversationId && ws) {
+    const isHttps = location.protocol.startsWith("https:");
+    if (conversationId && wsRef.current === null) {
       const host = isHttps ? "chat-api.felguerez.com" : "localhost:8080";
       const wsProtocol = isHttps ? "wss" : "ws";
       wsRef.current = new WebSocket(
         `${wsProtocol}://${host}/api/conversations/${conversationId}/stream`,
       );
 
-      ws.onopen = (event) => {
+      wsRef.current.onopen = (event: Event) => {
         console.log("WebSocket opened:", event);
       };
 
-      ws.onclose = (event) => {
-        console.log("websocket closed???? ", event);
-      }
+      wsRef.current.onclose = (event: CloseEvent) => {
+        console.log("WebSocket closed:", event);
+      };
 
-      keepAlive = setInterval(() => {
-        ws.send(JSON.stringify({ type: "keep-alive" }));
-      }, 3000);
-
-      wsRef.current.onmessage = (event) => {
+      wsRef.current.onmessage = (event: MessageEvent) => {
         const newMessage = JSON.parse(event.data) as Message;
         console.log("newMessage:", newMessage);
-
         dispatch({ type: "ADD_MESSAGE", payload: newMessage });
       };
+
+      keepAlive = setInterval(() => {
+        const wsCurrent = wsRef.current;
+        if (wsCurrent && wsCurrent.readyState === WebSocket.OPEN) {
+          wsCurrent.send(JSON.stringify({ type: "keep-alive" }));
+        }
+      }, 3000);
     }
 
     return () => {
       clearInterval(keepAlive);
-      if (ws) {
-        ws.close();
-        wsRef.current = null; // Reset the ref for future use
+      const wsCurrent = wsRef.current;
+      if (wsCurrent) {
+        wsCurrent.close();
+        wsRef.current = null;
       }
     };
   }, [conversationId]);
+
   const messagesEndRef = useRef<HTMLElement | null>(null);
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
