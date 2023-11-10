@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "grpchat-web-container",
-      "image": "413025517373.dkr.ecr.us-east-1.amazonaws.com/grpchat-web:6c06159",
+      "image": "413025517373.dkr.ecr.us-east-1.amazonaws.com/grpchat-web:c5d5582",
       "memory": 512,
       "cpu": 256,
       "essential": true,
