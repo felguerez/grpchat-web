@@ -41,7 +41,9 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
   const [allMessages, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    dispatch({ type: "SET_INITIAL_MESSAGES", payload: messages });
+    if (messages) {
+      dispatch({ type: "SET_INITIAL_MESSAGES", payload: messages });
+    }
   }, [messages]);
   const wsRef = useRef<WebSocket | null>(null);
   let keepAlive: NodeJS.Timeout;
@@ -67,6 +69,10 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
         const newMessage = JSON.parse(event.data) as Message;
         console.log("newMessage:", newMessage);
         dispatch({ type: "ADD_MESSAGE", payload: newMessage });
+      };
+
+      wsRef.current.onerror = (event) => {
+        console.error("WebSocket error observed:", event);
       };
 
       keepAlive = setInterval(() => {

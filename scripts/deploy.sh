@@ -2,27 +2,35 @@
 
 CLUSTER_NAME="grpchat-grpc-cluster"
 SERVICE_NAME="grpchat-web"
-ECR_REPO="413025517373.dkr.ecr.us-east-1.amazonaws.com/grpchat-web"
-PROJECT_ROOT_DIR="$(dirname "$0")/.."  # This gets the parent directory of the script location
+PROJECT_ROOT_DIR="$(dirname "$0")/.."
+cd "$PROJECT_ROOT_DIR" || { echo "Could not find project root directory"; exit 1; }
 
-echo "Project directory is $PROJECT_ROOT_DIR"
+TASK_DEF_PATH="$PROJECT_ROOT_DIR/deploy/ecs-task-definition-nextjs.json"
 
-# login
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REPO
+# Register the new task definition to create a new revision
+NEW_TASK_DEF_ARN=$(aws ecs register-task-definition \
+  --cli-input-json file://"$TASK_DEF_PATH" \
+  --query 'taskDefinition.taskDefinitionArn' \
+  --output text)
 
-# Enable Docker BuildKit to parallelize build steps and optimize caching
-export DOCKER_BUILDKIT=1
-# Build Docker image
-docker build -t $SERVICE_NAME "$PROJECT_ROOT_DIR"
+# Check if the task definition was registered successfully
+if [ -z "$NEW_TASK_DEF_ARN" ]; then
+    echo "Failed to register new task definition for Next.js."
+    exit 1
+fi
 
-# Tag Docker image for Amazon ECR
-docker tag $SERVICE_NAME:latest $ECR_REPO:latest
+echo "Registered new task definition: $NEW_TASK_DEF_ARN"
 
-# Push Docker image to Amazon ECR
+# Update the ECS service to use the new task definition revision
+aws ecs update-service \
+  --cluster "$CLUSTER_NAME" \
+  --service "$SERVICE_NAME" \
+  --task-definition "$NEW_TASK_DEF_ARN" \
+  --force-new-deployment
 
-echo "gonna push to $ECR_REPO:latest"
-
-docker push "$ECR_REPO:latest"
-
-# Update ECS service to force a new deployment (pulls the latest image from ECR)
-aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment
+if [ $? -eq 0 ]; then
+    echo "Deployment for Next.js service initiated with task definition $NEW_TASK_DEF_ARN."
+else
+    echo "Failed to initiate deployment for Next.js service."
+    exit 1
+fi

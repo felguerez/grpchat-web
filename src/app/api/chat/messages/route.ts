@@ -54,6 +54,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       }
     });
     console.log("Writing to chat stream");
+    console.log('stream is:', stream);
     return stream.write(req);
   });
 }

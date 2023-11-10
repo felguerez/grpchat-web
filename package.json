@@ -9,7 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "proto": "grpc_tools_node_protoc --proto_path=./proto --js_out=import_style=commonjs,binary:./proto --grpc_out=grpc_js:./proto --ts_out=grpc_js:./proto --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts ./proto/chat.proto",
-    "proto2": "grpc_tools_node_protoc --plugin=node_modules/.bin/protoc-gen-ts_proto       --ts_proto_opt outputClientImpl=true       --ts_proto_opt outputServices=grpc-js       --ts_proto_opt useOptionals=messages       --ts_proto_opt esModuleInterop=true       --ts_proto_opt stringEnums=true       --ts_proto_out src/gen"
+    "proto2": "grpc_tools_node_protoc --plugin=node_modules/.bin/protoc-gen-ts_proto       --ts_proto_opt outputClientImpl=true       --ts_proto_opt outputServices=grpc-js       --ts_proto_opt useOptionals=messages       --ts_proto_opt esModuleInterop=true       --ts_proto_opt stringEnums=true       --ts_proto_out src/gen",
+    "build-img": "./scripts/build.sh",
+    "update-ecs": "./scripts/update_ecs_task.sh",
+    "send": "./scripts/send.sh"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.9.3",
@@ -20,8 +23,6 @@
     "eslint": "8.50.0",
     "eslint-config-next": "13.5.2",
     "google-protobuf": "^3.21.2",
-    "grpc": "^1.24.11",
-    "grpc-web": "^1.4.2",
     "next": "13.5.2",
     "postcss": "8.4.30",
     "prettier": "^3.0.3",
@@ -32,7 +33,6 @@
     "sass": "^1.69.0",
     "styled-components": "^6.0.8",
     "tailwindcss": "3.3.3",
-    "ts-proto": "^1.159.3",
     "typescript": "4.9.5",
     "ws": "^8.14.2"
   },
