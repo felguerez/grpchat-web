@@ -52,6 +52,7 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
     const isHttps = location.protocol.startsWith("https:");
     if (conversationId && wsRef.current === null) {
       const host = isHttps ? "chat-api.felguerez.com" : "localhost:8080";
+      console.log('connecting to host:', host);
       const wsProtocol = isHttps ? "wss" : "ws";
       wsRef.current = new WebSocket(
         `${wsProtocol}://${host}/api/conversations/${conversationId}/stream`,
