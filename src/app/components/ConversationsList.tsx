@@ -1,7 +1,7 @@
 "use client";
 import "../conversations/conversations.scss";
 
-export function Conversations({ conversations }: { conversations: any[] }) {
+export function ConversationsList({ conversations }: { conversations: any[] }) {
   return (
     <div className="conversations-list">
       {conversations.map((convo) => {

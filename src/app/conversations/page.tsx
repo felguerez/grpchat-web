@@ -1,5 +1,5 @@
 import { NewConversationForm } from "@/app/components/NewConversationForm";
-import { Conversations } from "@/app/components/Conversations";
+import { ConversationsList } from "@/app/components/ConversationsList";
 
 export default async function Page() {
   const { conversations } = await getConversations();
@@ -11,10 +11,10 @@ export default async function Page() {
       </div>
     );
   }
-  return <Conversations conversations={conversations} />;
+  return <ConversationsList conversations={conversations} />;
 }
 
-async function getConversations() {
+export async function getConversations() {
   const API_URL = "http://localhost:3000/api/chat/conversations";
   const response = await fetch(API_URL);
   if (response.ok) {

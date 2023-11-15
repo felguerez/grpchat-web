@@ -40,3 +40,6 @@ next-env.d.ts
 proto/*_pb.js
 proto/*_grpc_pb.js
 proto/*.ts
+
+# ecs deploy task
+deploy/ecs-task-definition-nextjs.json

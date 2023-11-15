@@ -52,7 +52,7 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
     const isHttps = location.protocol.startsWith("https:");
     if (conversationId && wsRef.current === null) {
       const host = isHttps ? "chat-api.felguerez.com" : "localhost:8080";
-      console.log('connecting to host:', host);
+      console.log("connecting to host:", host);
       const wsProtocol = isHttps ? "wss" : "ws";
       wsRef.current = new WebSocket(
         `${wsProtocol}://${host}/api/conversations/${conversationId}/stream`,
@@ -68,8 +68,10 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
 
       wsRef.current.onmessage = (event: MessageEvent) => {
         const newMessage = JSON.parse(event.data) as Message;
-        console.log("newMessage:", newMessage);
-        dispatch({ type: "ADD_MESSAGE", payload: newMessage });
+        if (newMessage.user_id) {
+          console.log("newMessage:", newMessage);
+          dispatch({ type: "ADD_MESSAGE", payload: newMessage });
+        }
       };
 
       wsRef.current.onerror = (event) => {
