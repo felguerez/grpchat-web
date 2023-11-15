@@ -46,9 +46,9 @@ const ChatRoom = ({ conversationId, messages }: ChatRoomProps) => {
     }
   }, [messages]);
   const wsRef = useRef<WebSocket | null>(null);
-  let keepAlive: NodeJS.Timeout;
 
   useEffect(() => {
+    let keepAlive: NodeJS.Timeout;
     const isHttps = location.protocol.startsWith("https:");
     if (conversationId && wsRef.current === null) {
       const host = isHttps ? "chat-api.felguerez.com" : "localhost:8080";

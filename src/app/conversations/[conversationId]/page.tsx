@@ -30,7 +30,7 @@ export async function getConversation(conversationId: string) {
   if (response.ok) {
     return response.json();
   }
-  return {
+  return Promise.resolve({
     conversation: {},
-  };
+  });
 }
