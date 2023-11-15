@@ -2,8 +2,8 @@ import React from "react";
 import {ConversationsList} from "@/app/components/ConversationsList";
 import {getConversations} from "@/app/conversations/page";
 import ChatRoom from "@/app/components/ChatRoom";
-import {getConversation} from "@/app/conversations/[conversationId]/page";
 import "./styles.scss";
+import {getConversation} from "@/app/conversations/[conversationId]/getConversation";
 async function fetchData(conversationId: string): Promise<any> {
   return Promise.all([
     getConversations(),
