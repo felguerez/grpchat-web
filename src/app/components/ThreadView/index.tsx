@@ -27,8 +27,6 @@ export async function ThreadView({
   };
 }) {
   const {conversations, messages} = await fetchData(conversationId);
-  console.log("conversations:", conversations);
-  console.log('messages:', messages);
   if (!conversations.length) return null;
   return (
     <div className="thread-view-container">
