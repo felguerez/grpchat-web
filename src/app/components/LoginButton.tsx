@@ -2,7 +2,6 @@
 import React from "react";
 
 export function LoginButton({ url }: {  url: string; }) {
-  console.log('url:', url);
   function onLogin() {
     window.location.assign(url);
   }
